@@ -37,13 +37,13 @@ case "$option" in
 		read -p "What is the AS-SET?:  "  peerASSET
 		echo "Setting $peerASSET"
 	if [[ ! -e /opt/ixpcontrol/data/routeserver/PEERS/$peerASN ]]; then
-  		echo $peerASSET > /opt/ixpcontrol/data/routeserver/PEERS/$peerASN/AS-SET
+		echo $peerASSET > /opt/ixpcontrol/data/routeserver/PEERS/$peerASN/AS-SET
 		fi
 	fi
                         if ! [[ "$peerASN" =~ ^[0-9]+$ ]]
-                          then
-                               echo "Invalid ASN Provided, Please Use NUMBERS Only. - Exiting. Please Retry."
-                               exit
+							then
+								echo "Invalid ASN Provided, Please Use NUMBERS Only. - Exiting. Please Retry."
+								exit
                         fi
                         echo "Select an option:"
                         echo "   1) IPv4 ONLY"
@@ -60,7 +60,7 @@ case "$option" in
                                 read -p "Neighbor Address:  "  peer4Address
                                 echo "Setting $peer4Address"
                                         if [[ ! -e /opt/ixpcontrol/data/routeserver/PEERS/$peerASN ]]; then
-                                          mkdir -p /opt/ixpcontrol/data/routeserver/PEERS/$peerASN
+											mkdir -p /opt/ixpcontrol/data/routeserver/PEERS/$peerASN
                                         fi
 
 cat >> /opt/ixpcontrol/data/routeserver/PEERS/$peerASN/peer_v4.conf <<EOL
@@ -114,7 +114,7 @@ cat /opt/ixpcontrol/data/routeserver/PEERS/$peerASN/prefix_v4.conf /opt/ixpcontr
                                 read -p "Neighbor Address:  "  peer6Address
                                 echo "Setting $peer4Address"
                                         if [[ ! -e /opt/ixpcontrol/data/routeserver/PEERS/$peerASN ]]; then
-                                          mkdir -p /opt/ixpcontrol/data/routeserver/PEERS/$peerASN
+											mkdir -p /opt/ixpcontrol/data/routeserver/PEERS/$peerASN
                                         fi
 
 cat >> /opt/ixpcontrol/data/routeserver/PEERS/$peerASN/peer_v6.conf <<EOL
@@ -136,10 +136,10 @@ EOL
 								read -p "IPv6 Neighbor Address:  "  peer6Address
                                 echo "Setting $peer6Address"
                                         if [[ ! -e /opt/ixpcontrol/data/routeserver/PEERS/$peerASN ]]; then
-                                          mkdir -p /opt/ixpcontrol/data/routeserver/PEERS/$peerASN
+											mkdir -p /opt/ixpcontrol/data/routeserver/PEERS/$peerASN
                                         fi
                                         if [[ ! -e /opt/ixpcontrol/data/routeserver/PEERS/$peerASN ]]; then
-                                          mkdir -p /opt/ixpcontrol/data/routeserver/PEERS/$peerASN
+											mkdir -p /opt/ixpcontrol/data/routeserver/PEERS/$peerASN
                                         fi
 cat >> /opt/ixpcontrol/data/routeserver/PEERS/$peerASN/peer_v4.conf <<EOL
 protocol bgp PEER_AS$peerASN from ix_peer
@@ -213,9 +213,9 @@ echo ""
 			read -p "Peer ASN: (NUMBERS ONLY)"  peerASN
                 echo "Seaching For $peerASN"
                         if ! [[ "$peerASN" =~ ^[0-9]+$ ]]
-                          then
-                               echo "Invalid ASN Provided, Please Use NUMBERS Only. - Exiting. Please Retry."
-                               exit
+							then
+							echo "Invalid ASN Provided, Please Use NUMBERS Only. - Exiting. Please Retry."
+							exit
                         fi
 						if [[ ! -e /opt/ixpcontrol/data/routeserver/PEERS/$peerASN/peer_v4.conf ]]; then
 						echo "IPv4 Session Found"
