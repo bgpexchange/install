@@ -2,6 +2,8 @@
 
 DIR="/opt/ixpcontrol/data/routeserver"
 BGPQ="/usr/local/bin/bgpq4"
+BIRD4="/sbin/bird"
+BIRD6="/sbin/bird6"
 
 function refresh {
 	echo "Fetching IRR Lists, This may take a while.."
@@ -60,6 +62,20 @@ function refresh {
 	echo ""
 	exit
 }
+
+if [[ ! -e "$BIRD4" ]]; then
+	echo "Error BIRD v4 Not Found"
+	echo "$BIRD4"
+	echo ""
+	exit
+fi
+
+if [[ ! -e "$BIRD6" ]]; then
+	echo "Error BIRD v6 Not Found"
+	echo "$BIRD6"
+	echo ""
+	exit
+fi
 
 if [[ ! -e "$BGPQ" ]]; then
 	echo "Error bgpq4 Not Found"
