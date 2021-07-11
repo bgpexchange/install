@@ -119,6 +119,7 @@ apt-get -yq install \
   bison \
   flex \
   libtool \
+	libssh-dev \
   bridge-utils \
   ethtool \
   jq \
