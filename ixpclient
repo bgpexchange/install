@@ -2,6 +2,69 @@
 
 DIR="/opt/ixpcontrol/data/routeserver"
 
+function refresh {
+	echo "Fetching IRR Lists, This may take a while.."
+	if [[ -e $DIR/PEERS ]]; then
+		cd $DIR/PEERS;
+		for v4ASN in *; do
+			if [ -d "$v4ASN" ]; then
+				echo "Found ASN: $v4ASN"
+				if [[ -e $DIR/PEERS/$v4ASN/AS-SET ]]; then
+					peerAS=$(cat $DIR/PEERS/$v4ASN/AS-SET)
+					echo "AS-SET Present for ASN: $v4ASN - AS-SET: $peerAS"
+					#bgpq4 -bl "define PREFIX_AS$v4ASN" $peerAS > $DIR/PEERS/$v4ASN/prefix_v4.conf
+					echo "ASN: $v4ASN using $peerAS Complete"
+					echo "Prefix List"
+					#cat $DIR/PEERS/$v4ASN/prefix_v4.conf
+					sleep 2
+				else
+					echo "NO AS-SET Found for $v4ASN, Using ASN Only."
+					#bgpq4 -bl "define PREFIX_AS$v4ASN" AS$v4ASN > $DIR/PEERS/$v4ASN/prefix_v4.conf
+					echo "ASN: $v4ASN using ASv4ASN Complete"
+					echo "Prefix List"
+					#cat $DIR/PEERS/$v4ASN/prefix_v4.conf
+					sleep 2
+				fi
+			fi
+		done
+		cd $DIR/PEERS;
+		for v6ASN in *; do
+			if [ -d "$v6ASN" ]; then
+				echo "Found ASN: $v6ASN"
+				if [[ -e $DIR/PEERS/$v6ASN/AS-SET ]]; then
+					peerAS=$(cat $DIR/PEERS/$v6ASN/AS-SET)
+					echo "AS-SET Present for ASN: $v6ASN - AS-SET: $peerAS"
+					#bgpq4 -b6l "define PREFIX_AS$v6ASN" $peerAS > $DIR/PEERS/$v6ASN/prefix_v6.conf
+					echo "ASN: $v6ASN using $peerAS Complete"
+					echo "Prefix List"
+					#cat $DIR/PEERS/$v6ASN/prefix_v6.conf
+					sleep 2
+				else
+					echo "NO AS-SET Found for $v6ASN, Using ASN Only."
+					#bgpq4 -b6l "define PREFIX_AS$v6ASN" AS$v6ASN > $DIR/PEERS/$v6ASN/prefix_v6.conf
+					echo "ASN: $v6ASN using AS$v6ASN Complete"
+					echo "Prefix List"
+					#cat $DIR/PEERS/$v6ASN/prefix_v6.conf
+					sleep 2
+				fi
+			fi
+		done
+		echo "IRR Prefix List Fetching.. Complete"
+		echo ""
+		echo ""
+		exit
+	else
+		echo "IRR Prefix List Fetching.. Error Directory"
+		echo "$DIR/PEERS"
+		echo ""
+		exit
+	fi
+}
+
+if [ "$1" == "-r" ]; then
+	refresh
+fi
+
 clear
 echo ""
 echo -e "\e[32m ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: \e[1m"
@@ -258,55 +321,7 @@ EOL
 		exit
 		;;
 	3)
-		echo "Fetching IRR Lists, This may take a while.."
-		cd $DIR/PEERS;
-		for v4ASN in *; do
-			if [ -d "$v4ASN" ]; then
-				echo "Found ASN: $v4ASN"
-				if [[ -e $DIR/PEERS/$v4ASN/AS-SET ]]; then
-					peerAS=$(cat $DIR/PEERS/$v4ASN/AS-SET)
-					echo "AS-SET Present for ASN: $v4ASN - AS-SET: $peerAS"
-					bgpq4 -bl "define PREFIX_AS$v4ASN" $peerAS > $DIR/PEERS/$v4ASN/prefix_v4.conf
-					echo "ASN: $v4ASN using $peerAS Complete"
-					echo "Prefix List"
-					cat $DIR/PEERS/$v4ASN/prefix_v4.conf
-					sleep 2
-				else
-					echo "NO AS-SET Found for $v4ASN, Using ASN Only."
-					bgpq4 -bl "define PREFIX_AS$v4ASN" AS$v4ASN > $DIR/PEERS/$v4ASN/prefix_v4.conf
-					echo "ASN: $v4ASN using ASv4ASN Complete"
-					echo "Prefix List"
-					cat $DIR/PEERS/$v4ASN/prefix_v4.conf
-					sleep 2
-				fi
-			fi
-		done
-		cd $DIR/PEERS;
-		for v6ASN in *; do
-			if [ -d "$v6ASN" ]; then
-				echo "Found ASN: $v6ASN"
-				if [[ -e $DIR/PEERS/$v6ASN/AS-SET ]]; then
-					peerAS=$(cat $DIR/PEERS/$v6ASN/AS-SET)
-					echo "AS-SET Present for ASN: $v6ASN - AS-SET: $peerAS"
-					bgpq4 -b6l "define PREFIX_AS$v6ASN" $peerAS > $DIR/PEERS/$v6ASN/prefix_v6.conf
-					echo "ASN: $v6ASN using $peerAS Complete"
-					echo "Prefix List"
-					cat $DIR/PEERS/$v6ASN/prefix_v6.conf
-					sleep 2
-				else
-					echo "NO AS-SET Found for $v6ASN, Using ASN Only."
-					bgpq4 -b6l "define PREFIX_AS$v6ASN" AS$v6ASN > $DIR/PEERS/$v6ASN/prefix_v6.conf
-					echo "ASN: $v6ASN using AS$v6ASN Complete"
-					echo "Prefix List"
-					cat $DIR/PEERS/$v6ASN/prefix_v6.conf
-					sleep 2
-				fi
-			fi
-		done
-		echo "IRR Prefix List Fetching.. Complete"
-		echo ""
-		echo ""
-		exit
+		refresh
 		;;
 	4)
 		exit
