@@ -221,4 +221,4 @@ cat > /etc/hostname <<EOL
 $hostname
 EOL
 
-echo "Node $nodeID has been installed sucessfully."
+echo "$hostname has been installed sucessfully."
