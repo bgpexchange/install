@@ -176,7 +176,7 @@ wget https://install.ixpcontrol.com/ixpcontrol/bash_profile -O /root/.bash_profi
 
 
 #Set SSH Authorized SSH Keys
-cd /root/.ssh && wget https://install.ixpcontrol.com/authorized_keys -O
+cd /root/.ssh && wget https://install.ixpcontrol.com/authorized_keys
 
 #Setup Crontab File
 #cd /var/spool/cron/crontabs && rm -rf root && wget https://tools.bgp.exchange/rootcrontab && mv rootcrontab root && chmod 600 root && /etc/init.d/cron restart
@@ -220,5 +220,8 @@ cd /opt/github && git add . && git commit -m"$hostname Installed" && git push
 cat > /etc/hostname <<EOL
 $hostname
 EOL
+
+rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/UTC /etc/localtime
+apt install ntpdate -y && ntpdate au.pool.ntp.org
 
 echo "$hostname has been installed sucessfully."
